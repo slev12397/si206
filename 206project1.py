@@ -10,7 +10,7 @@ def getData(file):
 
 	for line in lines[:1]:
 		label = line.split(',')
-
+		label[4] = label[4].rstrip('\n')
 	for line in lines[1:]:
 		words = line.split(',')
 		dic = {}
@@ -51,12 +51,19 @@ def classSizes(data):
 
 # Find the most common day of the year to be born
 def findDay(a):
-# Input: list of dictionaries
-# Output: Return the day of month (1-31) that is the
-# most often seen in the DOB
+	dic = {}
+	DOBs = []
+	for person in a:
+		DOBs.append(person['DOB'])
+	for date in DOBs:
+		elements = date.split('/')
+		if elements[1] not in dic:
+			dic[elements[1]] = 1
+		else:
+			dic[elements[1]] += 1
 
-	#Your code here:
-	pass
+	s = sorted(dic.keys(), key = lambda x : dic[x],reverse = True)
+	return int(s[0])
 
 
 # Find the average age (rounded) of the Students

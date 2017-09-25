@@ -4,20 +4,23 @@ import filecmp
 
 def getData(file):
 
-	lst_col = []
+	lst_dics = []
 	opened = open(file, 'r')
 	lines = opened.readlines()
+
+	for line in lines[:1]:
+		label = line.split(',')
+
 	for line in lines[1:]:
 		words = line.split(',')
 		dic = {}
-		dic['First']=words[0]
-		dic['Last']=words[1]
-		dic['Email']=words[2]
-		dic['Class']=words[3]
-		dic['DOB']=words[4].rstrip('\n')
-		lst_col.append(dic)
-	return lst_col
-
+		dic[label[0]]=words[0]
+		dic[label[1]]=words[1]
+		dic[label[2]]=words[2]
+		dic[label[3]]=words[3]
+		dic[label[4]]=words[4].rstrip('\n')
+		lst_dics.append(dic)
+	return lst_dics
 
 
 
@@ -31,13 +34,18 @@ def mySort(data,col):
 
 #Create a histogram
 def classSizes(data):
-# Input: list of dictionaries
-# Output: Return a list of tuples ordered by
-# ClassName and Class size, e.g
-# [('Senior', 26), ('Junior', 25), ('Freshman', 21), ('Sophomore', 18)]
+	lst = []
+	class_dic = {}
+	for student in data:
+		if student['Class'] not in class_dic.keys():
+			class_dic[student['Class']] = 1
+		else:
+			class_dic[student['Class']] += 1
 
-	#Your code here:
-	pass
+	for tup in class_dic.items():
+		lst.append(tup)
+	return sorted(lst, key = lambda x: x[1], reverse = True)
+
 
 
 
